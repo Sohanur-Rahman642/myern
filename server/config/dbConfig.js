@@ -2,7 +2,7 @@ module.exports = {
     HOST: 'localhost',
     USER: 'root',
     PASSWORD: '',
-    DB: 'node_sequelize_api_db',
+    DB: 'myearn_db',
     dialect: 'mysql',
     pool:{
         max: 5,
