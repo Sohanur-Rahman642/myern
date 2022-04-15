@@ -21,8 +21,14 @@ app.use(bodyParser.json());
 
 
 // routers
-const router = require('./routes/productRouter')
-app.use('/api/products', router)
+const productRouter = require('./routes/productRouter')
+app.use('/api/products', productRouter)
+
+const userRouter = require('./routes/userRouter')
+app.use('/api/users', userRouter)
+
+const cartRouter = require('./routes/cartRouter')
+app.use('/api/cart', cartRouter)
 
 
 app.get('/', (req, res) => {
