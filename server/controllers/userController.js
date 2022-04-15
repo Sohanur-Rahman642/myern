@@ -123,42 +123,30 @@ const getCartItemsByUser = async (req, res) => {
         where: { id: id }
     })
 
-   let p;
-   data.items.map(element => {
-         p = Product.findOne({where: {product_id: element.product_id}})    
+    const newArr = data.items.map(element => {
+        return {
+            id: element.id,
+            product_id: element.product_id
+        }
     })
 
-        p
-        .then(element =>{
-            const arr = {
-                id: element.id,
-                product_id: element.product_id,
-                product: element
-            } 
 
-            let info = {
-                id: data.id,
-                email: data.email,
-                items: arr
-            }
-        
-        
-            result = {
-                apiName: "getCartItemsByUser",
-                suceess: true,
-                status: 1,
-                data: info,
-                message: "All cart items fetched successfully"
-            } 
-        
-            res.status(200).send(result)
-            
-        })
-        .catch(err => console.log(err))
-        
+    let info = {
+        id: data.id,
+        email: data.email,
+        items: newArr
+    }
 
 
-    
+    result = {
+        apiName: "getCartItemsByUser",
+        suceess: true,
+        status: 1,
+        data: info,
+        message: "All cart items fetched successfully"
+    } 
+
+    res.status(200).send(result)
  
 }
 
