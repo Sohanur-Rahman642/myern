@@ -1,5 +1,9 @@
 const db = require('../models')
 
+// image Upload
+const multer = require('multer')
+const path = require('path')
+
 /// create main Model
 const Product = db.products
 const Review = db.reviews
@@ -13,7 +17,8 @@ const addProduct = async (req, res) => {
         title: req.body.title,
         price: req.body.price,
         description: req.body.description,
-        published: req.body.published ? req.body.published : false,    
+        published: req.body.published ? req.body.published : false,  
+        images: req.file.path,  
     }
     let apiName = 'addProducts'
     let suceess, status, message, data, result;
@@ -141,11 +146,39 @@ const getPublishedProducts = async (req, res) => {
     res.status(200).send(result)
 }
 
+
+// 8. Upload Image Controller
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'Images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: '1000000' },
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/
+        const mimeType = fileTypes.test(file.mimetype)  
+        const extname = fileTypes.test(path.extname(file.originalname))
+
+        if(mimeType && extname) {
+            return cb(null, true)
+        }
+        cb('Give proper files formate to upload')
+    }
+}).single('images')
+
 module.exports = {
     addProduct,
     getAllProducts,
     getOneProduct,
     updateProduct,
     deleteProduct,
-    getPublishedProducts
+    getPublishedProducts,
+    upload
 }

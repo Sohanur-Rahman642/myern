@@ -1,3 +1,4 @@
+const { carts } = require('../models')
 const db = require('../models')
 const { use } = require('../routes/cartRouter')
 
@@ -7,11 +8,12 @@ const User = db.users
 
 //add to cart
 const addToCart = async (req, res) => {
-    const {product_id, price, user_id} = req.body;
+    const {product_id, price, quantity, user_id} = req.body;
 
     let info = {
         product_id: product_id,
         price: price,
+        quantity: quantity,
         user_id: user_id
     }
 
@@ -57,26 +59,29 @@ const findDetailsOfCart = async (value) => {
 }
 
 //get all from carts
-const getAllProductsFromCart = async (req, res) => {
-    let id = req.params.product_id
+const getAllProductsOfUser = async (req, res) => {
+    let id = req.params.user_id
     
-    let apiName = "getAllProductsFromCart"
+    let apiName = "getAllProductsOfUser"
     let suceess, status, message, data, result;
 
 
     const info = await Cart.findAll({
-        include: [{
-            model: Product,
-            as: 'products'
-        }],
-        where: { product_id: id }
+        where: { user_id: id }
     })
 
+    const n = info.map(async item => {
+         let unresolvedInfo = await Product.findOne({where:{product_id: item.product_id}})
+         return {...item.dataValues, productInfo: unresolvedInfo.dataValues}
+    })
+
+    const p = await Promise.all(n);
+    
     result = {
         apiName: apiName,
         suceess: true,
         status: 1,
-        data: info,
+        data: p,
         message: "All cart products fetched successfully"
     } 
     res.status(200).send(result)
@@ -84,5 +89,5 @@ const getAllProductsFromCart = async (req, res) => {
 
 module.exports = {
    addToCart,
-   getAllProductsFromCart
+   getAllProductsOfUser
  }

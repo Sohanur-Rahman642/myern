@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
     res.json({message: 'hello from myearn api'});
 });
 
+//static Images Folder
+
+app.use('/Images', express.static('./Images'))
+
 //PORT
 const PORT = process.env.PORT || 3000;
 

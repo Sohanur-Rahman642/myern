@@ -2,7 +2,7 @@ const productController = require('../controllers/productController')
 
 const router = require('express').Router()
 
-router.post('/addProduct', productController.addProduct)
+router.post('/addProduct', productController.upload, productController.addProduct)
 
 router.get('/allProducts', productController.getAllProducts)
 

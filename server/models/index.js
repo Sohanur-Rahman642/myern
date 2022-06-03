@@ -49,24 +49,31 @@ db.sequelize.sync({force: false})
 // Relationship
 
 // 1 to many between users a& carts
-db.users.hasMany(db.carts, {
-    foreignKey: 'user_id',
-    as: 'items'
-})
-
-// db.carts.belongsTo(db.users, {
+// db.users.hasMany(db.carts, {
 //     foreignKey: 'user_id',
-//     as: 'user'
+//     as: 'carts'
 // })
 
-//1 to many between carts & products
-db.carts.hasMany(db.products, {
-    foreignKey: 'product_id',
-    as: 'products'
+db.users.hasOne(db.carts, {
+    foreignKey:'user_id',
+    as:'carts'
 })
 
-// db.carts.belongsTo(db.products)
+db.carts.belongsTo(db.users, {
+    foreignKey: 'user_id',
+    as: 'cartOwners'
+})
 
+// db.carts.hasMany(db.products, {
+//     foreignKey: 'product_id',
+//     as: 'products'
+// })
+
+// db.products.belongsTo(db.carts)
+
+// db.users.belongsToMany(db.products, {
+//     through: 
+// })
 
 module.exports = db
 
