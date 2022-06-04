@@ -59,10 +59,10 @@ const findDetailsOfCart = async (value) => {
 }
 
 //get all from carts
-const getAllProductsOfUser = async (req, res) => {
+const getAllCartsOfUser = async (req, res) => {
     let id = req.params.user_id
     
-    let apiName = "getAllProductsOfUser"
+    let apiName = "getAllCartsOfUser"
     let suceess, status, message, data, result;
 
 
@@ -89,5 +89,5 @@ const getAllProductsOfUser = async (req, res) => {
 
 module.exports = {
    addToCart,
-   getAllProductsOfUser
+   getAllCartsOfUser
  }

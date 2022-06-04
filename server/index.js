@@ -39,8 +39,10 @@ app.get('/', (req, res) => {
 
 app.use('/Images', express.static('./Images'))
 
+console.log("process.env.NODE_ENV ", process.env.NODE_ENV)
+
 //PORT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
 
 //SERVER
 app.listen(PORT, () => {

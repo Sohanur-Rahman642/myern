@@ -111,47 +111,9 @@ const logIn = async (req, res) => {
 
 
 //getCartItemsByUser
-const getCartItemsByUser = async (req, res) => {
-    let id = req.params.user_id;
-    console.log("id params ", id)
 
-    const data = await Users.findOne({
-        include: [{
-            model: Cart,
-            as: 'items'
-        }],
-        where: { id: id }
-    })
-
-    const newArr = data.items.map(element => {
-        return {
-            id: element.id,
-            product_id: element.product_id
-        }
-    })
-
-
-    let info = {
-        id: data.id,
-        email: data.email,
-        items: newArr
-    }
-
-
-    result = {
-        apiName: "getCartItemsByUser",
-        suceess: true,
-        status: 1,
-        data: info,
-        message: "All cart items fetched successfully"
-    } 
-
-    res.status(200).send(result)
- 
-}
 
 module.exports = {
    signUp,
-   logIn,
-   getCartItemsByUser
+   logIn
 }
