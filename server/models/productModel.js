@@ -16,7 +16,11 @@ module.exports = ( sequelize, DataTypes ) => {
         },
         published: {
             type: DataTypes.BOOLEAN,
-        }
+        },
+        images: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
     })
 
     return Product

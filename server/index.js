@@ -21,16 +21,28 @@ app.use(bodyParser.json());
 
 
 // routers
-const router = require('./routes/productRouter')
-app.use('/api/products', router)
+const productRouter = require('./routes/productRouter')
+app.use('/api/products', productRouter)
+
+const userRouter = require('./routes/userRouter')
+app.use('/api/users', userRouter)
+
+const cartRouter = require('./routes/cartRouter')
+app.use('/api/cart', cartRouter)
 
 
 app.get('/', (req, res) => {
     res.json({message: 'hello from myearn api'});
 });
 
+//static Images Folder
+
+app.use('/Images', express.static('./Images'))
+
+console.log("process.env.NODE_ENV ", process.env.NODE_ENV)
+
 //PORT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
 
 //SERVER
 app.listen(PORT, () => {
